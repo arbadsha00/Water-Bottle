@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Bottle from "./Bottle";
 import Cart from "./Cart";
-import { addToLS, getCart, removerFromLS } from "../utilities/LS";
+import { addToLS, getCart, getTotal, removerFromLS, updateTotal } from "../utilities/LS";
 const Bottles = () => {
   const [bottles, setBottles] = useState([]);
   useEffect(() => {
@@ -21,7 +21,9 @@ const Bottles = () => {
                 if (bottle)
                     savedCart.push(bottle);
             }
-            setCart(savedCart);
+          setCart(savedCart);
+          const total = getTotal();
+          setTotal(Number(total));
         }
     },[bottles])
     
@@ -32,21 +34,32 @@ const Bottles = () => {
         addToLS(bottle.id);
 }
 
-    function handleRemoveFromCart(bottle) {
-        const newArr = cart.filter(item => item !== bottle);
+    function handleRemoveFromCart(index) {
+        const newArr = cart.filter((_, i) => i !== index);
         setCart(newArr);
-        removerFromLS(bottle.id);
+        removerFromLS(index);
 }
 
+  const [total, setTotal] = useState(0);
+
+  function handleTotal(price) {
+    setTotal(total + price);
+    updateTotal(total + price);
+  }
+  function handleSubtraction(price) {
+    setTotal(total - price);
+    updateTotal(total - price);
+  }
   return (
     <div className=" container mx-auto my-16">
       <div className="divider">
         <h3 className="font-bold text-3xl">Available Bottles</h3>
       </div>
-      <Cart handleRemoveFromCart={handleRemoveFromCart} cart={cart}></Cart>
+      <Cart handleSubtraction={handleSubtraction} total={total} handleRemoveFromCart={handleRemoveFromCart} cart={cart}></Cart>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {bottles.map((bottle) => (
-          <Bottle key={bottle.id} handleAddToCart={handleAddToCart} bottle={bottle}></Bottle>
+          <Bottle key={bottle.id}
+          handleTotal={handleTotal}  handleAddToCart={handleAddToCart} bottle={bottle}></Bottle>
         ))}
       </div>
     </div>

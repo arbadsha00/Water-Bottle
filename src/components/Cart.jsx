@@ -1,4 +1,4 @@
-const Cart = ({ cart, handleRemoveFromCart }) => {
+const Cart = ({ cart, handleRemoveFromCart,total,handleSubtraction }) => {
   return (
     <div>
       <div>
@@ -10,15 +10,16 @@ const Cart = ({ cart, handleRemoveFromCart }) => {
         </h1>
       </div>
       <div className=" space-y-3">
-        {cart.map((bottle) => (
-          <div key={bottle.id}>
+        {cart.map((bottle,index) => (
+          <div key={index}>
             <div className="flex gap-6 items-center">
               <img className="w-16" src={bottle.img} alt="" />
               <h1 className="font-semibold">{bottle.name}</h1>
               <h1 className="font-semibold text-green-600">{bottle.price}$</h1>
               <button
                 onClick={() => {
-                  handleRemoveFromCart(bottle);
+                  handleRemoveFromCart(index)
+                    handleSubtraction(bottle.price);
                 }}
                 className="btn "
               >
@@ -29,7 +30,7 @@ const Cart = ({ cart, handleRemoveFromCart }) => {
         ))}
       </div>
       <div className="divider"></div>
-      <h3 className="font-semibold">Total Price :</h3>
+      <h3 className="font-semibold">Total Price : {total}</h3>
     </div>
   );
 };

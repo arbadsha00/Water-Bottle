@@ -16,8 +16,18 @@ function addToLS(id) {
     cart.push(id);
     saveCartToLS(cart);
 }
-function removerFromLS(id) {
+function removerFromLS(index) {
     const cart = getCart();
-    saveCartToLS(cart.filter(idx => idx !== id));
+    saveCartToLS(cart.filter((_, i) => i !== index));
 }
-export { addToLS, removerFromLS, getCart };
+function updateTotal(total) {
+    localStorage.setItem("total", total);
+}
+function getTotal() {
+    const total = localStorage.getItem("total");
+    if (total)
+        return total;
+    else
+        return 0;
+}
+export { addToLS, removerFromLS, getCart,updateTotal,getTotal };

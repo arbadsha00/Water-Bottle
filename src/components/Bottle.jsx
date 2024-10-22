@@ -1,6 +1,6 @@
 
 
-const Bottle = ({bottle,handleAddToCart}) => {
+const Bottle = ({bottle,handleAddToCart,handleTotal}) => {
     const { name, price, img } = bottle;
     return (
         <div className="space-y-3 shadow-xl rounded-xl p-5 my-10">
@@ -12,7 +12,8 @@ const Bottle = ({bottle,handleAddToCart}) => {
                 <h3 className="font-bold  text-green-600 text-2xl">{price }$</h3>
             </div>
             <button onClick={() => {
-                handleAddToCart(bottle);
+                handleAddToCart(bottle)
+                handleTotal(price);
             }} className="btn bg-blue-700 text-white font-semibold hover:text-blue-700 hover:bg-black">
         Buy
       </button>
